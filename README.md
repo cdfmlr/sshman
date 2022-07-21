@@ -1,5 +1,7 @@
 # sshman
 
+English | [机翻中文](README-zh_CN.md)
+
 Sshman, is a more real world example of how crud can help you build a
 CRUD REST API fast and easily.
 
@@ -51,19 +53,19 @@ Host:
 
 | Field    | Type        | Description             |
 |----------|-------------|-------------------------|
-| id       | `integer`   | The user id             |
+| id       | `integer`   | The host id             |
 | hostname | `string`    | The hostname            |
 | ip       | `string`    | The ip address          |
 | port     | `integer`   | The port to SSH service |
 
 Session:
 
-| Field      | Type       | Description                         |
-|------------|------------|-------------------------------------|
-| id         | `integer`  | The user id                         |
-| host       | `Host`     | The host to connect                 |
-| username   | `string`   | The username to connect to host     |
-| privateKey | `string`   | The private key to connect to host  |
+| Field      | Type       | Description                        |
+|------------|------------|------------------------------------|
+| id         | `integer`  | The session id                     |
+| host       | `Host`     | The host to connect                |
+| username   | `string`   | The username to connect to host    |
+| privateKey | `string`   | The private key to connect to host |
 
 User:
 
