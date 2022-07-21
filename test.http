@@ -1,0 +1,454 @@
+# This file contains HTTP requests examples for the sshman API.
+# Standard responses are given after each request.
+
+### request with Authorization
+
+GET http://localhost:8080/admin/hosts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+# HEADER: { "alg": "HS256", "typ": "JWT" }
+# PAYLOAD: { "id": 1, "email": "root(AT)sshman.example", "role": 3, "exp": 2658372957 }
+# this token identifies that we are logined as admin user "root", whose id is 1
+# this token will expire in Mar 29 2054 12:55:57 GMT +0800 (CST)
+
+###
+
+RESPONSE
+
+HTTP/1.1 200 OK
+Content-Length: 12
+Connection: keep-alive
+Content-Type: application/json; charset=utf-8
+Date: Thu, 21 Jul 2022 02:57:47 GMT
+Keep-Alive: timeout=4
+Proxy-Connection: keep-alive
+X-Request-Id: 146dd86f-9c7f-3f3b-af11-40dcab7dee82
+
+{
+  "Hosts": []
+}
+
+### create a host
+
+POST http://localhost:8080/admin/hosts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+Content-Type: application/json
+
+{
+  "hostname": "ENIAC",
+  "ip": "39.9523.75.1906",
+  "port": "22"
+}
+
+###
+
+RESPONSE
+
+{
+  "Host": {
+    "ID": 1,
+    "CreatedAt": "2022-07-21T11:08:21.275657+08:00",
+    "UpdatedAt": "2022-07-21T11:08:21.275657+08:00",
+    "DeletedAt": null,
+    "hostname": "ENIAC",
+    "ip": "39.9523.75.1906",
+    "port": "22"
+  }
+}
+
+### update the host
+
+PUT http://localhost:8080/admin/hosts/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+Content-Type: application/json
+
+{
+  "port": "2022"
+}
+
+###
+
+RESPONSE
+
+{
+  "Host": {
+    "ID": 1,
+    "CreatedAt": "2022-07-21T11:08:21.275657+08:00",
+    "UpdatedAt": "2022-07-21T11:12:09.525427+08:00",
+    "DeletedAt": null,
+    "hostname": "ENIAC",
+    "ip": "39.9523.75.1906",
+    "port": "2022"
+  }
+}
+
+### create another host
+
+POST http://localhost:8080/admin/hosts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+Content-Type: application/json
+
+{
+  "hostname": "ABC",
+  "ip": "atanasoff-berry.computer",
+  "port": "22"
+}
+
+###
+
+RESPONSE
+
+{
+  "Host": {
+    "ID": 2,
+    "CreatedAt": "2022-07-21T11:17:49.186832+08:00",
+    "UpdatedAt": "2022-07-21T11:17:49.186832+08:00",
+    "DeletedAt": null,
+    "hostname": "ABC",
+    "ip": "atanasoff-berry.computer",
+    "port": "22"
+  }
+}
+
+### get all hosts
+
+GET http://localhost:8080/admin/hosts
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+RESPONSE
+
+{
+  "Hosts": [
+    {
+      "ID": 1,
+      "CreatedAt": "2022-07-21T11:08:21.275657+08:00",
+      "UpdatedAt": "2022-07-21T11:12:09.525427+08:00",
+      "DeletedAt": null,
+      "hostname": "ENIAC",
+      "ip": "39.9523.75.1906",
+      "port": "2022"
+    },
+    {
+      "ID": 2,
+      "CreatedAt": "2022-07-21T11:17:49.186832+08:00",
+      "UpdatedAt": "2022-07-21T11:17:49.186832+08:00",
+      "DeletedAt": null,
+      "hostname": "ABC",
+      "ip": "atanasoff-berry.computer",
+      "port": "22"
+    }
+  ]
+}
+
+### create another user (We are now root user whose ID is 1)
+
+POST http://localhost:8080/admin/users
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+{
+  "name": "Foo",
+  "email": "foo@bar.com",
+  "role": 1
+}
+
+###
+
+RESPONSE
+
+{
+  "User": {
+    "ID": 2,
+    "CreatedAt": "2022-07-21T11:22:21.019441+08:00",
+    "UpdatedAt": "2022-07-21T11:22:21.019441+08:00",
+    "DeletedAt": null,
+    "name": "Foo",
+    "email": "foo@bar.com",
+    "role": 1,
+    "sessions": null
+  }
+}
+
+### delete the user (id=2)
+
+DELETE http://localhost:8080/admin/users/2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+RESPONSE
+
+{
+  "deleted": true
+}
+
+### get all users
+
+GET http://localhost:8080/admin/users
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+RESPONSE
+
+{
+  "Users": [
+    {
+      "ID": 1,
+      "CreatedAt": "2022-07-21T10:19:02.709507+08:00",
+      "UpdatedAt": "2022-07-21T10:19:02.709507+08:00",
+      "DeletedAt": null,
+      "name": "root",
+      "email": "root@sshman.example",
+      "role": 3,
+      "sessions": null
+    }
+  ]
+}
+
+### add a session to user (id=1), the session's host is ENIAC (id=1)
+
+POST http://localhost:8080/admin/users/1/sessions
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+Content-Type: application/json
+
+{
+  "host_id": 1,
+  "username": "joe",
+  "private_key": "private_key_here"
+}
+
+### get the created session, with the nested model Host preloaded
+
+GET http://localhost:8080/admin/sessions/1?preload=Host
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+RESPONSE
+
+{
+  "Session": {
+    "ID": 1,
+    "CreatedAt": "2022-07-21T11:27:29.581989+08:00",
+    "UpdatedAt": "2022-07-21T11:27:29.581989+08:00",
+    "DeletedAt": null,
+    "host": {
+      "ID": 1,
+      "CreatedAt": "2022-07-21T11:08:21.275657+08:00",
+      "UpdatedAt": "2022-07-21T11:32:02.658767+08:00",
+      "DeletedAt": null,
+      "hostname": "ENIAC",
+      "ip": "39.9523.75.1906",
+      "port": "22"
+    },
+    "host_id": 1,
+    "username": "joe",
+    "private_key": "private_key_here"
+  }
+}
+
+### create a new session with a new host, new host will be created automatically
+
+POST http://localhost:8080/admin/users/1/sessions
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+Content-Type: application/json
+
+{
+  "host": {
+    "hostname": "PDP-7",
+    "ip": "19.65.144.257",
+    "port": "22"
+  },
+  "username": "doe",
+  "private_key": "private_key_here"
+}
+
+### get user with nested preload
+
+GET http://localhost:8080/admin/users/1?preload=Sessions&preload=Sessions.Host
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+RESPONSE
+
+{
+  "User": {
+    "ID": 1,
+    "CreatedAt": "2022-07-21T10:19:02.709507+08:00",
+    "UpdatedAt": "2022-07-21T11:35:54.033488+08:00",
+    "DeletedAt": null,
+    "name": "root",
+    "email": "root@sshman.example",
+    "role": 3,
+    "sessions": [
+      {
+        "ID": 1,
+        "CreatedAt": "2022-07-21T11:27:29.581989+08:00",
+        "UpdatedAt": "2022-07-21T11:27:29.581989+08:00",
+        "DeletedAt": null,
+        "host": {
+          "ID": 1,
+          "CreatedAt": "2022-07-21T11:08:21.275657+08:00",
+          "UpdatedAt": "2022-07-21T11:32:02.658767+08:00",
+          "DeletedAt": null,
+          "hostname": "ENIAC",
+          "ip": "39.9523.75.1906",
+          "port": "22"
+        },
+        "host_id": 1,
+        "username": "joe",
+        "private_key": "private_key_here"
+      },
+      {
+        "ID": 2,
+        "CreatedAt": "2022-07-21T11:35:54.033968+08:00",
+        "UpdatedAt": "2022-07-21T11:35:54.033968+08:00",
+        "DeletedAt": null,
+        "host": {
+          "ID": 3,
+          "CreatedAt": "2022-07-21T11:17:49.186832+08:00",
+          "UpdatedAt": "2022-07-21T11:17:49.186832+08:00",
+          "DeletedAt": null,
+          "hostname": "PDP-7",
+          "ip": "19.65.144.257",
+          "port": "22"
+        },
+        "host_id": 2,
+        "username": "doe",
+        "private_key": "private_key_here"
+      }
+    ]
+  }
+}
+
+### delete a session for user
+
+DELETE http://localhost:8080/admin/users/1/sessions/2
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+RESPONSE
+
+{
+  "deleted": true
+}
+
+### get all sessions for user (with Host preloaded)
+
+GET http://localhost:8080/admin/users/1/sessions?preload=Host
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+RESPONSE
+
+{
+  "Sessions": [
+    {
+      "ID": 1,
+      "CreatedAt": "2022-07-21T11:27:29.581989+08:00",
+      "UpdatedAt": "2022-07-21T11:27:29.581989+08:00",
+      "DeletedAt": null,
+      "host": {
+        "ID": 1,
+        "CreatedAt": "2022-07-21T11:08:21.275657+08:00",
+        "UpdatedAt": "2022-07-21T11:32:02.658767+08:00",
+        "DeletedAt": null,
+        "hostname": "ENIAC",
+        "ip": "39.9523.75.1906",
+        "port": "22"
+      },
+      "host_id": 1,
+      "username": "joe",
+      "private_key": "private_key_here"
+    }
+  ]
+}
+
+### UserGetSelf
+
+GET http://localhost:8080/user/1?preload=Sessions&preload=Sessions.Host
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+# notice: our own controller do not support preload!
+# but it's easy to add it. There is a service.QueryOption
+# called Preload to do this.
+
+RESPONSE
+
+{
+  "User": {
+    "ID": 1,
+    "CreatedAt": "2022-07-21T10:19:02.709507+08:00",
+    "UpdatedAt": "2022-07-21T18:46:43.169343+08:00",
+    "DeletedAt": null,
+    "name": "root",
+    "email": "root@sshman.example",
+    "role": 3,
+    "sessions": null
+  },
+  "message": "welcome to sshman"
+}
+
+### UserGetSessions
+
+GET http://localhost:8080/user/1/sessions?preload=Host
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+# the UserGetSessions use controller.GetFieldHandler which support preload.
+
+RESPONSE
+
+  "Sessions": [
+    {
+      "ID": 1,
+      "CreatedAt": "2022-07-21T11:27:29.581989+08:00",
+      "UpdatedAt": "2022-07-21T11:27:29.581989+08:00",
+      "DeletedAt": null,
+      "host": {
+        "ID": 1,
+        "CreatedAt": "2022-07-21T11:08:21.275657+08:00",
+        "UpdatedAt": "2022-07-21T11:32:02.658767+08:00",
+        "DeletedAt": null,
+        "hostname": "ENIAC",
+        "ip": "39.9523.75.1906",
+        "port": "22"
+      },
+      "host_id": 1,
+      "username": "joe",
+      "private_key": "private_key_here"
+    }
+  ]
+}
+
+### filter, ordering and pagination
+
+GET http://localhost:8080/admin/hosts?filter_by=port&filter_value=22&order_by=hostname&desc=true&limit=1&offset=1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJyb290QHNzaG1hbi5leGFtcGxlIiwicm9sZSI6MywiZXhwIjoyNjU4MzcyOTU3fQ.ZC2H4qrB0pZjLgCvFUyoaYojV7I3zNDFga2_ReilruQ
+
+###
+
+# offset=0: PDP-7, offset=1: ABC
+
+RESPONSE
+
+{
+  "Hosts": [
+    {
+      "ID": 2,
+      "CreatedAt": "2022-07-21T20:20:56.358395+08:00",
+      "UpdatedAt": "2022-07-21T20:20:56.358395+08:00",
+      "DeletedAt": null,
+      "hostname": "ABC",
+      "ip": "atanasoff-berry.computer",
+      "port": "22"
+    }
+  ]
+}
